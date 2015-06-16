@@ -1,0 +1,8 @@
+ro\teodorbaciu\commons\ws\util\WebUtil.class
+ro\teodorbaciu\commons\ws\security\AuthFilter.class
+ro\teodorbaciu\commons\ws\WebServiceModule.class
+ro\teodorbaciu\commons\ws\WebserviceOperation.class
+ro\teodorbaciu\commons\ws\security\WebUser.class
+ro\teodorbaciu\commons\ws\WSDispatcher.class
+ro\teodorbaciu\commons\ws\WsConstants.class
+ro\teodorbaciu\commons\ws\security\LoginServlet.class

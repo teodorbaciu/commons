@@ -41,3 +41,12 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
+/ws/.settings
+/ws/.classpath
+/ws/.project
+/ws-client/.settings
+/ws-client/.classpath
+/ws-client/.project
+/ws-transfer/.project
+/ws-transfer/.settings
+/ws-transfer/.classpath
