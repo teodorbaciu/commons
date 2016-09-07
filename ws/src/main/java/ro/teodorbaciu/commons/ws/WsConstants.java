@@ -13,6 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
+
 package ro.teodorbaciu.commons.ws;
 
 /**
@@ -22,7 +23,7 @@ package ro.teodorbaciu.commons.ws;
  */
 public class WsConstants {
 	
-	public final static String KEY_CURRENT_USER = "currentUser";
-	public final static String KEY_LOGIN_ERROR_MSG = "loginErrorMessage";
+	public static final String KEY_CURRENT_USER = "currentUser";
+	public static final String KEY_LOGIN_ERROR_MSG = "loginErrorMessage";
 	
 }

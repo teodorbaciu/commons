@@ -13,6 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
+
 package ro.teodorbaciu.commons.ws;
 
 import java.io.IOException;
@@ -36,14 +37,12 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class WebServiceModule {
 
-	
-	public final static String OPERATION_PARAM_NAME = "op";
+	public static final String OPERATION_PARAM_NAME = "op";
 
 	/**
 	 * The logger to be used.
 	 */
-	private final static Logger log = LoggerFactory
-			.getLogger(WebServiceModule.class);
+	private static final Logger log = LoggerFactory.getLogger(WebServiceModule.class);
 
 	/**
 	 * Stores the webservice operations defined in this module.
@@ -56,12 +55,11 @@ public abstract class WebServiceModule {
 	public WebServiceModule() {
 		hashWsOperations = new Hashtable<String, WebserviceOperation>();
 		initializeWsOperations();
-		
+
 	}
 
 	/**
-	 * Intializes the ws operations available in this module. For each operation
-	 * one should call "registerOperation(...)"
+	 * Intializes the ws operations available in this module. For each operation one should call "registerOperation(...)"
 	 */
 	protected abstract void initializeWsOperations();
 
@@ -75,17 +73,12 @@ public abstract class WebServiceModule {
 	/**
 	 * Sends the specified response down the wire to the browser.
 	 * 
-	 * @param result
-	 *            the text to send
-	 * @param response
-	 *            the servlet response object
-	 * @throws ServletException
-	 *             if an error occurs
-	 * @throws IOException
-	 *             if an error occurs
+	 * @param result the text to send
+	 * @param response the servlet response object
+	 * @throws ServletException if an error occurs
+	 * @throws IOException if an error occurs
 	 */
-	protected void writeResponse(String result, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void writeResponse(String result, HttpServletResponse response) throws ServletException, IOException {
 
 		PrintWriter pw = response.getWriter();
 		pw.print(result);
@@ -96,17 +89,13 @@ public abstract class WebServiceModule {
 
 	/**
 	 * Returns the json error response
-	 * 
-	 * @param errorMessage
 	 * @return the JSON representation of the error response.
 	 */
 	protected String formJsonErrorResponse(String errorMessage) {
 
 		String escapedMessage = StringEscapeUtils.escapeJava(errorMessage);
-		String result = "{" + "\"success\":false" + "," + "\"errorMessage\":"
-				+ "\"" + escapedMessage + "\"" + "}";
+		String result = "{" + "\"success\":false" + "," + "\"errorMessage\":" + "\"" + escapedMessage + "\"" + "}";
 
-		
 		return result;
 	}
 
@@ -124,8 +113,7 @@ public abstract class WebServiceModule {
 		// registered
 
 		if (hashWsOperations.get(name) != null) {
-			throw new RuntimeException("Operation '" + name
-					+ "' is already registered !");
+			throw new RuntimeException("Operation '" + name + "' is already registered !");
 		}
 
 		if (op == null) {
@@ -146,16 +134,14 @@ public abstract class WebServiceModule {
 	 * @throws Exception
 	 *             if an error occurs
 	 */
-	void dispatch(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	void dispatch(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		String operationName = request.getParameter(OPERATION_PARAM_NAME);
 
-		if (StringUtils.isEmpty( operationName )) {
+		if (StringUtils.isEmpty(operationName)) {
 
-			response.sendError(HttpServletResponse.SC_PRECONDITION_FAILED, 
-					"[" + getWebserviceModuleName() +"]: "
-					+ "Please specify the 'op' http request parameter !");
+			response.sendError(HttpServletResponse.SC_PRECONDITION_FAILED,
+					"[" + getWebserviceModuleName() + "]: " + "Please specify the 'op' http request parameter !");
 			return;
 
 		}
@@ -170,39 +156,39 @@ public abstract class WebServiceModule {
 
 		if (wsOperation == null) {
 			response.sendError(HttpServletResponse.SC_NOT_IMPLEMENTED,
-					"[" + getWebserviceModuleName() +"]: "
-					+ "Webservice operation with name '" + operationName + "' not found !");
+					"[" + getWebserviceModuleName() + "]: " + "Webservice operation with name '" 
+							+ operationName + "' not found !");
 			return;
 
 		}
-		
+
 		String jsonResult = "";
-		
+
 		try {
 
-			 jsonResult = wsOperation.execute(request, response);
+			jsonResult = wsOperation.execute(request, response);
 
 		} catch (IOException ioe) {
 			throw ioe;
 		} catch (ServletException se) {
 			throw se;
-		} catch (Exception e) {
-			
-			log.error("Unhandled exception caught while dispatching request", e);
-			jsonResult = formJsonErrorResponse("error" /*e.getMessage()*/);
-			
+		} catch (Exception ex) {
+
+			log.error("Unhandled exception caught while dispatching request", ex);
+			jsonResult = formJsonErrorResponse("error" /* e.getMessage() */);
+
 		}
 
-		if( jsonResult != null ) {
-			
+		if (jsonResult != null) {
+
 			// Send the response to the client
-			if( StringUtils.isEmpty( jsonResult ) ) {
+			if (StringUtils.isEmpty(jsonResult)) {
 				jsonResult = formJsonErrorResponse("Could not execute the operation specified with name '" + operationName + " !");
 			}
-			
+
 			String opIdentifier = "[" + getWebserviceModuleName() + ":" + operationName + "] ";
 			log.debug(opIdentifier + jsonResult);
-			
+
 			writeResponse(jsonResult, response);
 
 		}

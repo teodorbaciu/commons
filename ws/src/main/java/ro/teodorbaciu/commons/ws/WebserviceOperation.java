@@ -13,6 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
+
 package ro.teodorbaciu.commons.ws;
 
 import java.io.IOException;
@@ -33,10 +34,7 @@ public interface WebserviceOperation {
 	 * Executes the operation.
 	 * @param request the servlet request
 	 * @param response the servlet response
-	 * @throws ServletException
-	 * @throws IOException
-	 * @return the json response as String to be written
-	 * to the client
+	 * @return the json response as String to be written to the client
 	 */
 	public String execute(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException;
