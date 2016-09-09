@@ -17,11 +17,12 @@ package ro.teodorbaciu.commons.ws.transfer.beans;
 
 /**
  * Various constants that are valid between the tiers.
+ * 
  * @author Teodor Baciu
  *
  */
 public class WsTransferConstants {
 
 	public final static String dateFormat = "dd/MM/yyyy kk:mm:ss";
-	
+
 }

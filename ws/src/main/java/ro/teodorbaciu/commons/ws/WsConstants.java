@@ -18,12 +18,13 @@ package ro.teodorbaciu.commons.ws;
 
 /**
  * Constants used in the commons ws module.
+ * 
  * @author Teodor Baciu
  *
  */
 public class WsConstants {
-	
+
 	public static final String KEY_CURRENT_USER = "currentUser";
 	public static final String KEY_LOGIN_ERROR_MSG = "loginErrorMessage";
-	
+
 }

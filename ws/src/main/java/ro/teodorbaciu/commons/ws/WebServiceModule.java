@@ -89,6 +89,7 @@ public abstract class WebServiceModule {
 
 	/**
 	 * Returns the json error response
+	 * 
 	 * @return the JSON representation of the error response.
 	 */
 	protected String formJsonErrorResponse(String errorMessage) {
@@ -102,10 +103,8 @@ public abstract class WebServiceModule {
 	/**
 	 * Registers the specified webservice operation.
 	 * 
-	 * @param name
-	 *            the name of the operation
-	 * @param op
-	 *            the operation to register
+	 * @param name the name of the operation
+	 * @param op the operation to register
 	 */
 	public void registerOperation(String name, WebserviceOperation op) {
 
@@ -127,12 +126,9 @@ public abstract class WebServiceModule {
 	/**
 	 * Dispatches the request for processing to this module.
 	 * 
-	 * @param request
-	 *            the servlet request
-	 * @param response
-	 *            the servlet response
-	 * @throws Exception
-	 *             if an error occurs
+	 * @param request the servlet request
+	 * @param response the servlet response
+	 * @throws Exception if an error occurs
 	 */
 	void dispatch(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -157,7 +153,7 @@ public abstract class WebServiceModule {
 		if (wsOperation == null) {
 			response.sendError(HttpServletResponse.SC_NOT_IMPLEMENTED,
 					"[" + getWebserviceModuleName() + "]: " + "Webservice operation with name '" 
-							+ operationName + "' not found !");
+						+ operationName + "' not found !");
 			return;
 
 		}

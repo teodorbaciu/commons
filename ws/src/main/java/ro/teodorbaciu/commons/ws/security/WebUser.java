@@ -73,8 +73,7 @@ public class WebUser {
 	/**
 	 * Checks if the current user has the specified role.
 	 * 
-	 * @param roleName
-	 *            the name of the role to check
+	 * @param roleName the name of the role to check
 	 * @return true if the user has the role, false otherwise
 	 */
 	public boolean hasRole(String roleName) {

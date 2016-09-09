@@ -54,7 +54,7 @@ public class WebUtil {
 
 		if (required) {
 
-			if (StringUtils.isEmpty(param)) {
+			if (StringUtils.isBlank(param)) {
 
 				log.debug("Parameter '" + paramName + "' is empty !");
 				return false;
@@ -75,16 +75,12 @@ public class WebUtil {
 	/**
 	 * Returns the current user or null if no user is authenticated.
 	 * 
-	 * @param request
-	 *            the servlet request
+	 * @param request the servlet request
 	 * @return an instance of {@link WtUser} or null
 	 */
 	public static WebUser getCurrentUser(HttpServletRequest request) {
-
 		HttpSession session = request.getSession(true);
-
 		return (WebUser) session.getAttribute(WsConstants.KEY_CURRENT_USER);
-
 	}
 
 	public static String formatDate(Date date) {

@@ -16,48 +16,48 @@ limitations under the License.
 /* For more information see:
  * http://stackoverflow.com/questions/7057342/how-to-get-a-progress-bar-for-a-file-upload-with-apache-httpclient-4
  */
+
 package ro.teodorbaciu.commons.client.ws.progress;
 
 import java.io.IOException;
 import java.io.OutputStream;
 
 /**
- * Output stream that allows the notification of listeners
- * about the amount of bytes written.
+ * Output stream that allows the notification of listeners about the amount of bytes written.
+ * 
  * @author Teodor Baciu
  *
  */
 public class OutputStreamProgress extends OutputStream {
 
 	private final OutputStream outstream;
-	
+
 	private volatile long bytesWritten = 0;
-	
+
 	private final WriteListener writeListener;
 
-	public OutputStreamProgress(OutputStream outstream,
-			WriteListener writeListener) {
+	public OutputStreamProgress(OutputStream outstream, WriteListener writeListener) {
 		this.outstream = outstream;
 		this.writeListener = writeListener;
 	}
 
 	@Override
-	public void write(int b) throws IOException {
-		outstream.write(b);
+	public void write(int data) throws IOException {
+		outstream.write(data);
 		bytesWritten++;
 		writeListener.registerWrite(bytesWritten);
 	}
 
 	@Override
-	public void write(byte[] b) throws IOException {
-		outstream.write(b);
-		bytesWritten += b.length;
+	public void write(byte[] data) throws IOException {
+		outstream.write(data);
+		bytesWritten += data.length;
 		writeListener.registerWrite(bytesWritten);
 	}
 
 	@Override
-	public void write(byte[] b, int off, int len) throws IOException {
-		outstream.write(b, off, len);
+	public void write(byte[] data, int off, int len) throws IOException {
+		outstream.write(data, off, len);
 		bytesWritten += len;
 		writeListener.registerWrite(bytesWritten);
 	}

@@ -18,13 +18,14 @@ package ro.teodorbaciu.commons.ws.transfer.beans;
 import java.util.List;
 
 /**
- * Class that wraps a list of objects to be sent
- * as a result for a webservice call.
+ * Class that wraps a list of objects to be sent as a result for a webservice
+ * call.
+ * 
  * @author Teodor Baciu
  *
  */
 public class ListWrapper<T> extends BaseResult {
-	
+
 	/**
 	 * Stores the list to be wrapped.
 	 */
@@ -36,18 +37,19 @@ public class ListWrapper<T> extends BaseResult {
 	public ListWrapper() {
 		success = true;
 	}
-	
+
 	/**
 	 * Constructor.
+	 * 
 	 * @param list
 	 */
 	public ListWrapper(List<T> list) {
 		this.list = list;
 		success = true;
 	}
-	
+
 	public List<T> getList() {
 		return list;
 	}
-	
+
 }

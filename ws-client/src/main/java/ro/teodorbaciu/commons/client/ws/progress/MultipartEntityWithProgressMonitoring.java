@@ -16,6 +16,7 @@ limitations under the License.
 /* For more information see:
  * http://stackoverflow.com/questions/7057342/how-to-get-a-progress-bar-for-a-file-upload-with-apache-httpclient-4
  */
+
 package ro.teodorbaciu.commons.client.ws.progress;
 
 import java.io.IOException;
@@ -26,8 +27,8 @@ import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntity;
 
 /**
- * Allows the registration of a listener class for data write progress
- * monitoring.
+ * Allows the registration of a listener class for data write progress monitoring.
+ * 
  * @author Teodor Baciu
  *
  */
@@ -36,21 +37,17 @@ public class MultipartEntityWithProgressMonitoring extends MultipartEntity {
 	private OutputStreamProgress outstream;
 	private WriteListener writeListener;
 
-	
-
 	public MultipartEntityWithProgressMonitoring(WriteListener writeListener) {
 		super();
 		this.writeListener = writeListener;
 	}
 
-	public MultipartEntityWithProgressMonitoring(HttpMultipartMode mode,
-			WriteListener writeListener) {
+	public MultipartEntityWithProgressMonitoring(HttpMultipartMode mode, WriteListener writeListener) {
 		super(mode);
 		this.writeListener = writeListener;
 	}
 
-	public MultipartEntityWithProgressMonitoring(HttpMultipartMode mode,
-			String boundary, Charset charset, WriteListener writeListener) {
+	public MultipartEntityWithProgressMonitoring(HttpMultipartMode mode, String boundary, Charset charset, WriteListener writeListener) {
 		super(mode, boundary, charset);
 		this.writeListener = writeListener;
 	}
@@ -60,5 +57,5 @@ public class MultipartEntityWithProgressMonitoring extends MultipartEntity {
 		this.outstream = new OutputStreamProgress(outstream, writeListener);
 		super.writeTo(this.outstream);
 	}
-	
+
 }

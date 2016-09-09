@@ -13,27 +13,24 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
+
 package ro.teodorbaciu.commons.client.ws.exceptions;
 
 /**
- * Thrown when the webservice was called, but the operation was refused to be
- * executed by the server.
+ * Thrown when the webservice was called, but the operation was refused to be executed by the server.
+ * 
  * @author Teodor Baciu
  *
  */
 public class OperationForbiddenException extends Exception {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * Constructor.
-	 * @param message
 	 */
 	public OperationForbiddenException(String message) {
 		super(message);
 	}
-	
+
 }

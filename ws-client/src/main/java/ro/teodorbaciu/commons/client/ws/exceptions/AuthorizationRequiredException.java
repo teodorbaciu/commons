@@ -13,6 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
+
 package ro.teodorbaciu.commons.client.ws.exceptions;
 
 /**
@@ -23,9 +24,6 @@ package ro.teodorbaciu.commons.client.ws.exceptions;
  */
 public class AuthorizationRequiredException extends Exception {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	/**

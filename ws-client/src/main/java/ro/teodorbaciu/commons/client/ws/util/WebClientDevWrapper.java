@@ -13,6 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
+
 package ro.teodorbaciu.commons.client.ws.util;
 
 import java.io.IOException;
@@ -43,6 +44,10 @@ import org.apache.http.impl.client.DefaultHttpClient;
  */
 public class WebClientDevWrapper {
 
+	/**
+	 * Provides a new instance of http client that wraps the 
+	 * instance specified as parameter.
+	 */
 	@SuppressWarnings("deprecation")
 	public static DefaultHttpClient wrapClient(HttpClient base) {
 		try {
@@ -50,15 +55,12 @@ public class WebClientDevWrapper {
 			X509TrustManager tm = new X509TrustManager() {
 
 				@Override
-				public void checkClientTrusted(X509Certificate[] arg0,
-						String arg1)
-						throws java.security.cert.CertificateException {
+				public void checkClientTrusted(X509Certificate[] arg0, String arg1) throws java.security.cert.CertificateException {
 
 				}
 
 				@Override
-				public void checkServerTrusted(X509Certificate[] arg0,
-						String arg1) throws CertificateException {
+				public void checkServerTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {
 
 				}
 
@@ -71,18 +73,15 @@ public class WebClientDevWrapper {
 			X509HostnameVerifier verifier = new X509HostnameVerifier() {
 
 				@Override
-				public void verify(String string, SSLSocket ssls)
-						throws IOException {
+				public void verify(String string, SSLSocket ssls) throws IOException {
 				}
 
 				@Override
-				public void verify(String string, X509Certificate xc)
-						throws SSLException {
+				public void verify(String string, X509Certificate xc) throws SSLException {
 				}
 
 				@Override
-				public void verify(String string, String[] strings,
-						String[] strings1) throws SSLException {
+				public void verify(String string, String[] strings, String[] strings1) throws SSLException {
 				}
 
 				@Override

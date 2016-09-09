@@ -16,10 +16,12 @@ limitations under the License.
 /*
  * http://stackoverflow.com/questions/7057342/how-to-get-a-progress-bar-for-a-file-upload-with-apache-httpclient-4
  */
+
 package ro.teodorbaciu.commons.client.ws.progress;
 
 /**
  * Listens for write events.
+ * 
  * @author Teodor Baciu
  *
  */

@@ -23,19 +23,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Represents an operation to be executed by a webservice module.
+ * Represents an operation within a module to be executed.
  * 
  * @author Teodor Baciu
- * 
  */
+@FunctionalInterface
 public interface WebserviceOperation {
 
 	/**
 	 * Executes the operation.
+	 * 
 	 * @param request the servlet request
 	 * @param response the servlet response
-	 * @return the json response as String to be written to the client
+	 * @return the response as String to be written to the client
 	 */
-	public String execute(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException;
+	public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException;
 }

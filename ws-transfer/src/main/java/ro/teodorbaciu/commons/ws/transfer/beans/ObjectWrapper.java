@@ -15,11 +15,9 @@ limitations under the License.
 */
 package ro.teodorbaciu.commons.ws.transfer.beans;
 
-
-
 /**
- * Class that wraps an object to be sent as result
- * for a webservice call.
+ * Class that wraps an object to be sent as result for a webservice call.
+ * 
  * @author teo
  *
  */
@@ -33,16 +31,17 @@ public class ObjectWrapper<T> extends BaseResult {
 	public ObjectWrapper() {
 		success = true;
 	}
-	
+
 	/**
 	 * Constructor.
+	 * 
 	 * @param object
 	 */
 	public ObjectWrapper(T object) {
 		this.object = object;
 		success = true;
 	}
-	
+
 	public T getObject() {
 		return object;
 	}

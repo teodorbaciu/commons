@@ -64,14 +64,10 @@ public class WsDispatcher {
 	/**
 	 * Dispatches the web request to the appropriate module.
 	 * 
-	 * @param request
-	 *            the servlet request
-	 * @param response
-	 *            the servlet response
-	 * @throws ServletException
-	 *             if an error occurs
-	 * @throws IOException
-	 *             if an error occurs
+	 * @param request the servlet request
+	 * @param response the servlet response
+	 * @throws ServletException if an error occurs
+	 * @throws IOException if an error occurs
 	 */
 	public void dispatch(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -98,8 +94,7 @@ public class WsDispatcher {
 	/**
 	 * Finds the module with the specified name.
 	 * 
-	 * @param moduleName
-	 *            the name of the module
+	 * @param moduleName the name of the module
 	 * @return the module or null if no module with the specified name was found
 	 */
 	protected WebServiceModule findModule(String moduleName) {

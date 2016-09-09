@@ -13,23 +13,21 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
+
 package ro.teodorbaciu.commons.client.ws.exceptions;
 
 /**
- * Thrown to indicate that the server does not currently accept any more
- * logins (valid or failed)
+ * Thrown to indicate that the server does not currently accept any more logins (valid or failed).
+ * 
  * @author Teodor Baciu
  *
  */
 public class MaxFailedLoginsExceededException extends Exception {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	public MaxFailedLoginsExceededException(String msg) {
 		super(msg);
 	}
-	
+
 }

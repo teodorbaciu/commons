@@ -33,8 +33,8 @@ import ro.teodorbaciu.commons.ws.util.WebUtil;
 
 /**
  * <p>
- * Handles the login process. This servlet can be used for handling the login process initiated from an html form or for performing programatic login,
- * so the session can be used for calling webservice methods that require authentication.
+ * Handles the login process. This servlet can be used for handling the login process initiated from an html form or for performing
+ * programatic login, so the session can be used for calling webservice methods that require authentication.
  * </p>
  * <p>
  * We do a programatic login by specifying the <code>only-send-http-response</code> request parameter. The servlet will only send back the
@@ -183,8 +183,8 @@ public abstract class LoginServlet extends HttpServlet {
 	}
 
 	/**
-	 * Used to correctly redirect to the specified path. We need this complex redirection when accessing 
-	 * the web app through a reverse proxy over ssl.
+	 * Used to correctly redirect to the specified path. We need this complex redirection when accessing the web app through a reverse proxy
+	 * over ssl.
 	 */
 	private void redirectTo(HttpServletRequest req, HttpServletResponse resp, String path) throws IOException {
 
@@ -242,8 +242,7 @@ public abstract class LoginServlet extends HttpServlet {
 	/**
 	 * Utility method to be overridden to perform additional processing after the login.
 	 * 
-	 * @param currentUser
-	 *            the user that was successfuly authenticated
+	 * @param currentUser the user that was successfuly authenticated
 	 * @return should return true on successful processing, false otherwise
 	 */
 	protected boolean postLoginProcessing(WebUser currentUser, HttpServletRequest req, HttpServletResponse resp)
@@ -254,8 +253,7 @@ public abstract class LoginServlet extends HttpServlet {
 	/**
 	 * Searches for the user with the specified username.
 	 * 
-	 * @param username
-	 *            the username of the user :)
+	 * @param username the username of the user :)
 	 * @return an instance of {@link WtUser} or null if the user was not found.
 	 */
 	protected abstract WebUser findUser(String username, String password) throws Exception;

@@ -52,8 +52,8 @@ public class AuthFilter implements Filter {
 	private String loginPageUrl;
 
 	/**
-	 * Flag that instructs this filter to send http response codes instead of redirecting to the login 
-	 * page when an unauthenticated request comes in.
+	 * Flag that instructs this filter to send http response codes instead of redirecting to the login page when an unauthenticated request
+	 * comes in.
 	 */
 	private String onlySendHttpResponseCodes;
 

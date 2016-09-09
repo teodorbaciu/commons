@@ -17,6 +17,7 @@ package ro.teodorbaciu.commons.ws.transfer.beans;
 
 /**
  * Base class for all the beans to be sent as responses.
+ * 
  * @author teo
  *
  */
@@ -31,8 +32,7 @@ public abstract class BaseResult {
 	 * Stores an optional message in case of errors.
 	 */
 	private String errorMessage;
-	
-	
+
 	public boolean isSuccess() {
 		return success;
 	}
@@ -48,5 +48,5 @@ public abstract class BaseResult {
 	public void setErrorMessage(String errorMessage) {
 		this.errorMessage = errorMessage;
 	}
-	
+
 }
