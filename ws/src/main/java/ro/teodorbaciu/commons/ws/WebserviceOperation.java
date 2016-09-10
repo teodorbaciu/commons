@@ -16,11 +16,10 @@ limitations under the License.
 
 package ro.teodorbaciu.commons.ws;
 
-import java.io.IOException;
+import java.util.Map;
+import java.util.Optional;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import ro.teodorbaciu.commons.ws.transfer.beans.BaseResult;
 
 /**
  * Represents an operation within a module to be executed.
@@ -32,10 +31,7 @@ public interface WebserviceOperation {
 
 	/**
 	 * Executes the operation.
-	 * 
-	 * @param request the servlet request
-	 * @param response the servlet response
-	 * @return the response as String to be written to the client
 	 */
-	public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException;
+	public Optional<BaseResult> execute(String operationName, Map<String, String> parameters);
+	
 }

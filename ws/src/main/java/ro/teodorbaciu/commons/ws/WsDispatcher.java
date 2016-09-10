@@ -16,16 +16,14 @@ limitations under the License.
 
 package ro.teodorbaciu.commons.ws;
 
-import java.io.IOException;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
-import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import ro.teodorbaciu.commons.ws.DispatchResult.Status;
 
 /**
  * Dispatches web requests to the corresponding modules.
@@ -36,14 +34,9 @@ import org.slf4j.LoggerFactory;
 public class WsDispatcher {
 
 	/**
-	 * The logger to be used.
-	 */
-	private static final Logger log = LoggerFactory.getLogger(WsDispatcher.class);
-
-	/**
 	 * Contains the modules defined in this dispatcher.
 	 */
-	private List<WebServiceModule> listModules;
+	private HashMap<String, WebServiceModule> mapModules;
 
 	/**
 	 * A short name associated with this dispatcher, useful for logging.
@@ -56,64 +49,49 @@ public class WsDispatcher {
 	public WsDispatcher(String name) {
 
 		this.name = name;
-
-		log.debug("Successfully created web service dispatcher " + name);
-
+		mapModules = new HashMap<>();
 	}
 
 	/**
-	 * Dispatches the web request to the appropriate module.
-	 * 
-	 * @param request the servlet request
-	 * @param response the servlet response
-	 * @throws ServletException if an error occurs
-	 * @throws IOException if an error occurs
+	 * Dispatches request to the appropriate module.
+	 * @param moduleName the name of the module which contains the operation to execute
+	 * @param operationName the name of the operation to be executed
+	 * @param parameters a map containining the name value pairs
 	 */
-	public void dispatch(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		String moduleName = request.getParameter("module");
-
-		// check input
-		if (StringUtils.isEmpty(moduleName)) {
-			response.sendError(HttpServletResponse.SC_PRECONDITION_FAILED,
-					"[" + name + "]: " + "Please specify the 'module' http request parameter !");
-			return;
+	public DispatchResult dispatch(String moduleName, String operationName, Map<String, String> parameters)  {
+		
+		if ( StringUtils.isBlank( moduleName ) ) {
+			return new DispatchResult(Status.MODULE_NAME_BLANK);
 		}
-
-		WebServiceModule module = findModule(moduleName);
-
-		if (module == null) {
-			response.sendError(HttpServletResponse.SC_PRECONDITION_FAILED,
-					"[" + name + "]: " + "Could not find module with name '" + moduleName + "' !");
-			return;
+		
+		Optional<WebServiceModule> optModule = findModule(moduleName);
+		if ( !optModule.isPresent() ) { //module not found
+			return new DispatchResult(DispatchResult.Status.MODULE_NOT_FOUND);
 		}
+		
+		ExecutionResult executionResult = optModule.get().executeOperation(operationName, parameters);
+		return new DispatchResult(executionResult, Status.DISPATCH_SUCCESS);
+		
+	}
 
-		module.dispatch(request, response);
+	@Override
+	public String toString() {
+		return new ToStringBuilder(this).append("name", name).toString();
 	}
 
 	/**
 	 * Finds the module with the specified name.
 	 * 
 	 * @param moduleName the name of the module
-	 * @return the module or null if no module with the specified name was found
+	 * @return an {@link Optional} containing the module if one was found
 	 */
-	protected WebServiceModule findModule(String moduleName) {
+	protected Optional<WebServiceModule> findModule(String moduleName) {
 
-		for (WebServiceModule module : listModules) {
-			if (moduleName.equals(module.getWebserviceModuleName())) {
-				return module;
-			}
+		WebServiceModule module = mapModules.get(moduleName);
+		if (mapModules == null) {
+			return Optional.of(module);
 		}
-
-		return null;
+		return Optional.empty();
 	}
 
-	public void setListModules(List<WebServiceModule> listModules) {
-		this.listModules = listModules;
-	}
-
-	@Override
-	public String toString() {
-		return "web service dispatcher: " + name;
-	}
 }
