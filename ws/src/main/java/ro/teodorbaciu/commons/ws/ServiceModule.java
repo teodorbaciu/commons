@@ -21,8 +21,6 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import ro.teodorbaciu.commons.ws.ExecutionResult.Status;
 import ro.teodorbaciu.commons.ws.transfer.beans.BaseResult;
@@ -33,17 +31,12 @@ import ro.teodorbaciu.commons.ws.transfer.beans.BaseResult;
  * @author Teodor Baciu
  * 
  */
-public abstract class WebServiceModule {
-
-	/**
-	 * The logger to be used.
-	 */
-	private static final Logger log = LoggerFactory.getLogger(WebServiceModule.class);
+public class ServiceModule {
 
 	/**
 	 * Stores the webservice operations defined in this module.
 	 */
-	private HashMap<String, WebserviceOperation> mapOperations = null;
+	private HashMap<String, ServiceOperation> mapOperations = null;
 
 	/**
 	 * The name of the module.
@@ -53,9 +46,9 @@ public abstract class WebServiceModule {
 	/**
 	 * Constructor.
 	 */
-	public WebServiceModule(String moduleName) {
+	public ServiceModule(String moduleName) {
 		this.moduleName = moduleName;
-		mapOperations = new HashMap<String, WebserviceOperation>();
+		mapOperations = new HashMap<String, ServiceOperation>();
 	}
 	
 	/**
@@ -70,19 +63,36 @@ public abstract class WebServiceModule {
 			return new ExecutionResult(Status.OPERATION_NAME_BLANK);
 		}
 		
-		WebserviceOperation operation = mapOperations.get(operationName);
+		ServiceOperation operation = mapOperations.get(operationName);
 		if ( operation == null ) {
 			return new ExecutionResult(Status.OPERATION_NOT_FOUND);
 		}
 		
-		Optional<BaseResult> optExecutionValue = operation.execute(operationName, parameters);
+		Optional<BaseResult> optExecutionValue = operation.execute(parameters);
 		if ( !optExecutionValue.isPresent() ) {
 			return new ExecutionResult(Status.INVALID);
 		}
 		
-		return new ExecutionResult(optExecutionValue.get(), Status.INVALID);
+		return new ExecutionResult(optExecutionValue.get(), Status.VALID);
 	}
-
+	
+	/**
+	 * Add the specified operation to this module.
+	 * @param operation the operation to add
+	 */
+	public void addOperation(ServiceOperation operation) {
+		
+		if ( operation == null ) {
+			throw new NullPointerException("The operation parameter cannot be null");
+		}
+		
+		if (mapOperations.get(operation.getName()) != null) {
+			throw new IllegalArgumentException("The operation with name '" + operation.getName() + "' is already added");
+		}
+		
+		mapOperations.put(operation.getName(), operation);
+	}
+	
 	/**
 	 * Returns the name of the module.
 	 * 
