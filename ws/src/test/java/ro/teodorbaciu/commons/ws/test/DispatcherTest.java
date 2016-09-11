@@ -1,6 +1,5 @@
 package ro.teodorbaciu.commons.ws.test;
 
-import java.util.HashMap;
 import java.util.Optional;
 
 import org.junit.After;

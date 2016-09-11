@@ -79,8 +79,10 @@ public abstract class ServiceOperation {
 	 * {@link ServiceParameter} annotations.
 	 */
 	protected void collectDefinedParameterNames() {
+		
 		listParameterNames = new ArrayList<>();
-		ServiceParameter[] parameters = ServiceOperation.class.getAnnotationsByType(ServiceParameter.class);
+		
+		ServiceParameter[] parameters = this.getClass().getAnnotationsByType(ServiceParameter.class);
 		for ( ServiceParameter parameter:parameters ) {
 			listParameterNames.add( parameter.name() );
 		}
