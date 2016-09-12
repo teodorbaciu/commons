@@ -19,6 +19,7 @@ package ro.teodorbaciu.commons.ws;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -61,7 +62,7 @@ public class ServiceDispatcher {
 	 * @param operationName the name of the operation to be executed
 	 * @param parameters a map containining the name value pairs
 	 */
-	public DispatchResult dispatch(String moduleName, String operationName, Map<String, String> parameters) {
+	public DispatchResult dispatch(String moduleName, String operationName, Map<String, Object> parameters) {
 
 		if (StringUtils.isBlank(moduleName)) {
 			return new DispatchResult(Status.MODULE_NAME_BLANK);
@@ -123,6 +124,18 @@ public class ServiceDispatcher {
 	public Collection<ServiceModule> getModules() {
 		return Collections.unmodifiableCollection(mapModules.values());
 	}
+	
+	/**
+	 * Returns the names of parameters the specified operation requires.
+	 * @param moduleName the name of the module that contains the operation
+	 * @param operationName the name of the operation for which we want to get the parameter names
+	 * @return a {@link List} containing the parameter names
+	 */
+	public List<String> getParametersForOperations(String moduleName, String operationName) {
+		//TODO
+		
+		return Collections.emptyList();
+	}
 
 	@Override
 	public String toString() {
@@ -138,10 +151,10 @@ public class ServiceDispatcher {
 	protected Optional<ServiceModule> findModule(String moduleName) {
 
 		ServiceModule module = mapModules.get(moduleName);
-		if (mapModules == null) {
-			return Optional.of(module);
+		if (module == null) {
+			return Optional.empty();
 		}
-		return Optional.empty();
+		return Optional.of(module);
 	}
 
 }

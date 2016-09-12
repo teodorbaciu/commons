@@ -57,7 +57,7 @@ public class ServiceModule {
 	 * @param parameters the parameters to pass to the operation
 	 * @return an instance of type {@link ExecutionResult}
 	 */
-	public ExecutionResult executeOperation(String operationName, Map<String, String> parameters) {
+	public ExecutionResult executeOperation(String operationName, Map<String, Object> parameters) {
 		
 		if ( StringUtils.isBlank( operationName ) ) {
 			return new ExecutionResult(Status.OPERATION_NAME_BLANK);

@@ -72,18 +72,18 @@ public abstract class ServiceOperation {
 	 * @param parameters key value based map containing the parameters received by this operation
 	 * @return an {@link Optional} containg an instance of {@link BaseResult}
 	 */
-	public abstract Optional<BaseResult> execute(Map<String, String> parameters);
+	public abstract Optional<BaseResult> execute(Map<String, Object> parameters);
 
 	/**
 	 * Obtains the names of the parameters that have been defined using
-	 * {@link ServiceParameter} annotations.
+	 * {@link OperationParameter} annotations.
 	 */
 	protected void collectDefinedParameterNames() {
 		
 		listParameterNames = new ArrayList<>();
 		
-		ServiceParameter[] parameters = this.getClass().getAnnotationsByType(ServiceParameter.class);
-		for ( ServiceParameter parameter:parameters ) {
+		OperationParameter[] parameters = this.getClass().getAnnotationsByType(OperationParameter.class);
+		for ( OperationParameter parameter:parameters ) {
 			listParameterNames.add( parameter.name() );
 		}
 	}

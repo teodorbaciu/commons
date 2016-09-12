@@ -1,5 +1,7 @@
 package ro.teodorbaciu.commons.ws.test;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import org.junit.After;
@@ -12,10 +14,16 @@ import org.slf4j.LoggerFactory;
 import ro.teodorbaciu.commons.ws.ServiceDispatcher;
 import ro.teodorbaciu.commons.ws.ServiceModule;
 import ro.teodorbaciu.commons.ws.ServiceOperation;
+import ro.teodorbaciu.commons.ws.DispatchResult;
+import ro.teodorbaciu.commons.ws.OperationParameter;
+import ro.teodorbaciu.commons.ws.transfer.beans.BaseResult;
 
-public class DispatcherTest {
+public class ServiceDispatcherTestCase {
 
-	private static final Logger log = LoggerFactory.getLogger(DispatcherTest.class);
+	private static final String SERVICE_MODULE_PRODUCTS = "ws-module-products";
+	private static final String SERVICE_MODULE_USERS = "ws-module-users";
+
+	private static final Logger log = LoggerFactory.getLogger(ServiceDispatcherTestCase.class);
 	
 	ServiceDispatcher dispatcher;
 	private WsModuleUsers wsModuleUsers;
@@ -28,8 +36,8 @@ public class DispatcherTest {
 	public void setUp() throws Exception {
 		
 		dispatcher = new ServiceDispatcher("dispatcher");
-		wsModuleUsers = new WsModuleUsers("ws-module-users");
-		wsModuleProducts = new WsModuleProducts("ws-module-products");
+		wsModuleUsers = new WsModuleUsers(SERVICE_MODULE_USERS);
+		wsModuleProducts = new WsModuleProducts(SERVICE_MODULE_PRODUCTS);
 		
 		log.debug("DispatcherTest set up");
 	}
@@ -48,7 +56,7 @@ public class DispatcherTest {
 	}
 
 	@Test
-	public void testDispatcherOperations() {
+	public void testAddRemoveModules() {
 
 		// add
 		dispatcher.addModule(wsModuleUsers);
@@ -60,7 +68,7 @@ public class DispatcherTest {
 		Assert.assertFalse(inexistentModule.isPresent());
 
 		// Now remove the users module
-		Optional<ServiceModule> usersModule = dispatcher.removeModule("ws-module-users");
+		Optional<ServiceModule> usersModule = dispatcher.removeModule(SERVICE_MODULE_USERS);
 		Assert.assertTrue(usersModule.isPresent());
 
 		// Check if the returned module is the same with the one we added
@@ -68,6 +76,16 @@ public class DispatcherTest {
 
 		// Check the number of modules
 		Assert.assertEquals(1, dispatcher.getModules().size());
+	}
+	
+	@Test( expected = NullPointerException.class)
+	public void testAddNullModule() {
+		dispatcher.addModule(null);
+	}
+	
+	@Test( expected = IllegalArgumentException.class )
+	public void testRemoveModuleBlankName() {
+		dispatcher.removeModule("   ");
 	}
 
 	@Test(expected = IllegalArgumentException.class)
@@ -80,21 +98,28 @@ public class DispatcherTest {
 	}
 
 	@Test
-	public void testOperations() {
-
-		/*dispatcher.addModule(wsModuleUsers);
-		HashMap<String, String> mapParameters = new HashMap<>();
-		mapParameters.put("username", "teo");
-		mapParameters.put("password", "pwd");
-		dispatcher.dispatch(wsModuleUsers.getModuleName(), "op-add-user", mapParameters);
-		*/
+	public void testDispatch() {
+		
+		//Dispatch to inexistent module
+		DispatchResult dispatchResult = dispatcher.dispatch(SERVICE_MODULE_USERS, "op-add-user", new HashMap<>());
+		Assert.assertSame(DispatchResult.Status.MODULE_NOT_FOUND, dispatchResult.getStatus());
+	
+		//Now dispatch to valid module
+		dispatcher.addModule(wsModuleUsers);
+		dispatchResult = dispatcher.dispatch(SERVICE_MODULE_USERS, "op-add-user", new HashMap<>());
+		Assert.assertSame(DispatchResult.Status.DISPATCH_SUCCESS, dispatchResult.getStatus());
+		
+		//Dispatch to blank module name
+		dispatchResult = dispatcher.dispatch("   " , "op-add-user", new HashMap<>());
+		Assert.assertSame(DispatchResult.Status.MODULE_NAME_BLANK, dispatchResult.getStatus());
 	}
-
+	
 	/**
 	 * Webservice module for simulating user operations.
 	 *
 	 */
 	static class WsModuleUsers extends ServiceModule {
+		
 		public WsModuleUsers(String moduleName) {
 			super(moduleName);
 			
@@ -102,6 +127,21 @@ public class DispatcherTest {
 			ServiceOperation opAddUser = new OpAddUser();
 			log.info( opAddUser.getParameterNames().toString() );
 			addOperation( opAddUser );
+		}
+		
+		@OperationParameter(name = "username", mandatory = true)
+		@OperationParameter(name = "password", mandatory = true)
+		class OpAddUser extends ServiceOperation {
+
+			public OpAddUser() {
+				super("op-add-user");
+			}
+
+			@Override
+			public Optional<BaseResult> execute(Map<String, Object> parameters) {
+				return Optional.empty();
+			}
+
 		}
 	}
 
